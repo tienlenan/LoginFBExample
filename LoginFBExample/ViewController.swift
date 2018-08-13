@@ -10,34 +10,58 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class ViewController: UIViewController {
-
-    @IBOutlet weak var userFullName: UILabel!
-    @IBOutlet weak var userProfileView: UIView!
+class ViewController: UIViewController, FBSDKLoginButtonDelegate {
+    
+    @IBOutlet weak var imageView : UIImageView!
+    @IBOutlet weak var label: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        imageView.image = UIImage(named: "profile-icon")
+        
+        label.text = ""
+        label.textAlignment = NSTextAlignment.center
         
         let loginButton = FBSDKLoginButton()
         loginButton.center = self.view.center
-        loginButton.readPermissions = ["public_profile","email"]
-        self.view.addSubview(loginButton)
-        userFullName.text = ""
+        loginButton.delegate = self
+        view.addSubview(loginButton)
         
-        FBSDKProfile.enableUpdates(onAccessTokenChange: true)
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.FBSDKProfileDidChange, object: nil, queue: OperationQueue.main, using: { notification in
-            if let profile = FBSDKProfile.current() {
-                // Update for new user profile
-                if let fullName = profile.name {
-                    self.userFullName.text = fullName
-                }
-                let profilePictureView = FBSDKProfilePictureView()
-                profilePictureView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-                profilePictureView.profileID = FBSDKAccessToken.current().userID
-                self.userProfileView.addSubview(profilePictureView)
-            }
-        })
+        getFacebookUserInfo()
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        print("loginButtonDidLogOut")
+        imageView.image = UIImage(named: "profile-icon")
+        label.text = ""
+    }
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        print("didCompleteWith")
+        getFacebookUserInfo()
+    }
+    
+    func getFacebookUserInfo() {
+        if(FBSDKAccessToken.current() != nil)
+        {
+            //print permissions, such as public_profile
+            print(FBSDKAccessToken.current().permissions)
+            let graphRequest = FBSDKGraphRequest(graphPath: "me", parameters: ["fields" : "id, name, email"])
+            let connection = FBSDKGraphRequestConnection()
+            
+            connection.add(graphRequest, completionHandler: { (connection, result, error) -> Void in
+                
+                let data = result as! [String : AnyObject]
+                
+                self.label.text = data["name"] as? String
+                
+                let FBid = data["id"] as? String
+                
+                let url = NSURL(string: "https://graph.facebook.com/\(FBid!)/picture?type=large&return_ssl_resources=1")
+                self.imageView.image = UIImage(data: NSData(contentsOf: url! as URL)! as Data)
+            })
+            connection.start()
+        }
     }
 }
 

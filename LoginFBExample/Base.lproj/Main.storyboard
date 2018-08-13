@@ -20,14 +20,23 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mlw-dO-iSv">
                                 <rect key="frame" x="137" y="142" width="100" height="100"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Thg-PB-dtX">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="Thg-PB-dtX" firstAttribute="width" secondItem="mlw-dO-iSv" secondAttribute="width" id="5RX-4N-Zao"/>
+                                    <constraint firstItem="Thg-PB-dtX" firstAttribute="height" secondItem="mlw-dO-iSv" secondAttribute="height" id="6C8-IB-JVH"/>
+                                    <constraint firstItem="Thg-PB-dtX" firstAttribute="centerX" secondItem="mlw-dO-iSv" secondAttribute="centerX" id="Gwz-VJ-ohp"/>
                                     <constraint firstAttribute="width" constant="100" id="ZVX-2e-0EW"/>
                                     <constraint firstAttribute="height" constant="100" id="dJw-Dg-jbf"/>
+                                    <constraint firstItem="Thg-PB-dtX" firstAttribute="centerY" secondItem="mlw-dO-iSv" secondAttribute="centerY" id="x7p-L4-wUu"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="55a-H6-N25">
-                                <rect key="frame" x="50" y="252" width="275" height="21"/>
+                                <rect key="frame" x="50" y="252" width="275" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -44,8 +53,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="userFullName" destination="55a-H6-N25" id="YaD-tV-0mY"/>
-                        <outlet property="userProfileView" destination="mlw-dO-iSv" id="8E8-IT-dQe"/>
+                        <outlet property="imageView" destination="Thg-PB-dtX" id="dqi-iw-CWg"/>
+                        <outlet property="label" destination="55a-H6-N25" id="M4E-dl-F4d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
